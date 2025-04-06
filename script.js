@@ -1,3 +1,6 @@
+// Weather Forecast App using WeatherAPI.com
+// Features: Search by city, use current location, display 5-day forecast, save recent searches
+
 //  WeatherAPI key
 const API_KEY = "a74be9a67d67470bbc7162657250504";
 
@@ -12,14 +15,16 @@ const recentSearches = document.getElementById("recent-searches");
 const errorMessage = document.getElementById("error-message");
 
 // Event listener (search weather by city name)
-searchBtn.addEventListener("click", () => {
+// Handle search button click: fetch weather for entered city
+    searchBtn.addEventListener("click", () => {
   const city = cityInput.value.trim();
   if (!city) return showError("Please enter a city name.");
   fetchWeather(city);
 });
 
 // Event listener (search weather using current geolocation)
-currentLocationBtn.addEventListener("click", () => {
+// Handle "Current Location" button click: get weather for user's location
+    currentLocationBtn.addEventListener("click", () => {
   navigator.geolocation.getCurrentPosition(
     (pos) => {
       const { latitude, longitude } = pos.coords;
@@ -93,10 +98,12 @@ function saveRecentSearch(city) {
     if (cities.length > 5) cities.pop();
     localStorage.setItem("recentCities", JSON.stringify(cities));
   }
-  populateRecentSearches();
+  // Initialize the app by populating recent searches
+populateRecentSearches();
 }
 
 // Populate recent searches dropdown
+// Load recent searches from localStorage and display them in the dropdown
 function populateRecentSearches() {
   const cities = JSON.parse(localStorage.getItem("recentCities")) || [];
   recentDropdown.innerHTML = cities.map((c) => `<option value="${c}">${c}</option>`).join("");
